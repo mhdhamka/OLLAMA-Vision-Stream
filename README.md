@@ -579,26 +579,6 @@ git push origin feature/my-new-feature
 
 ---
 
-## License
-
-This project is licensed under the **MIT License**.
-
-See the `LICENSE` file for more information.
-
----
-
-## Author
-
-<div align="center">
-
-**mhdhamka**
-
-Built with ⚡, JavaScript, Ollama, and local AI.
-
-</div>
-
----
-
 <div align="center">
 
 ⭐ If you find **OLLAMA Vision Stream** useful or interesting, consider giving the repository a star.
