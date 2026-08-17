@@ -435,7 +435,7 @@ For smoother real-time operation, start with a lower capture frequency and adjus
 ## Project Structure
 
 ```text
-ollama-vision-stream/
+OLLAMA-vision-stream/
 │
 ├── index.html
 │
@@ -443,7 +443,7 @@ ollama-vision-stream/
 │   └── style.css
 │
 ├── js/
-│   └── app.js
+│   └── script.js
 │
 ├── Images/
 │   └── vision-stream.png
