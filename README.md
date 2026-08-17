@@ -292,13 +292,13 @@ You can verify the Ollama service is running by opening the address in your brow
 ### 3. Clone the Repository
 
 ```bash
-git clone https://github.com/mhdhamka/ollama-vision-stream.git
+git clone https://github.com/mhdhamka/OLLAMA-vision-stream.git
 ```
 
 Move into the project directory:
 
 ```bash
-cd ollama-vision-stream
+cd OLLAMA-vision-stream
 ```
 
 ---
