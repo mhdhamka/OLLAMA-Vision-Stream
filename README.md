@@ -53,7 +53,7 @@ The result is a private, interactive vision workspace where you can:
 
 ## Features
 
-### 👁️ Real-Time Vision Analysis
+### Real-Time Vision Analysis
 
 Stream frames from your browser webcam to a local multimodal AI model and receive visual analysis in real time.
 
@@ -66,7 +66,7 @@ Stream frames from your browser webcam to a local multimodal AI model and receiv
 * Person analysis
 * OCR / text extraction
 
-### 🧠 Local Ollama Inference
+### Local Ollama Inference
 
 Connect directly to your locally running Ollama instance.
 
@@ -91,7 +91,7 @@ Browser Interface
 
 No external AI API is required.
 
-### 🎛️ Dynamic Capture Controls
+### Dynamic Capture Controls
 
 Fine-tune how visual data is processed.
 
@@ -102,7 +102,7 @@ Fine-tune how visual data is processed.
 * Processing intervals
 * Model configuration
 
-### 🎨 Visual Processing
+### Visual Processing
 
 Customize the camera feed before sending frames to the model.
 
@@ -111,7 +111,7 @@ Customize the camera feed before sending frames to the model.
 * Targeted image cropping
 * Snapshot previews
 
-### 💬 Interactive Prompt Console
+### Interactive Prompt Console
 
 Use predefined prompts or write your own instructions.
 
@@ -124,7 +124,7 @@ Example presets include:
 * Analyze Environment
 * Custom Prompt
 
-### 🎙️ Voice Interaction
+### Voice Interaction
 
 Interact with the system without typing.
 
@@ -133,13 +133,13 @@ Interact with the system without typing.
 * Voice-driven prompts
 * Text-to-speech model responses
 
-### 🧠 Multi-Turn Visual Memory
+### Multi-Turn Visual Memory
 
 Maintain conversational context across multiple visual interactions.
 
 The model can use previous prompts and responses to provide more contextual analysis throughout an investigation session.
 
-### 📊 Performance Telemetry
+### Performance Telemetry
 
 Monitor inference performance directly from the interface.
 
@@ -149,7 +149,7 @@ Monitor inference performance directly from the interface.
 * Request status
 * Live processing telemetry
 
-### 🎭 Custom AI Personas
+### Custom AI Personas
 
 Switch between predefined system prompts for different use cases.
 
@@ -162,7 +162,7 @@ Example personas:
 
 You can also define your own system prompt and create specialized vision workflows.
 
-### ✏️ Snapshot Annotation
+### Snapshot Annotation
 
 Capture a frame and annotate it before saving.
 
