@@ -7,7 +7,6 @@
 [Report Bug](https://github.com) · [Request Feature](https://github.com)
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![HTML](https://img.shields.io/badge/HTML-HTML5-E34F26?logo=html5&logoColor=white)
 ![JS](https://img.shields.io/badge/JS-JavaScript-F7DF1E?logo=javascript&logoColor=black)
 ![Ollama](https://img.shields.io/badge/Ollama-Local%20Engine-orange)
 ![Theme](https://img.shields.io/badge/UI-Ollama%20Theme-ff6600)
