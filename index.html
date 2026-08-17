@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ollama Vision Stream</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="brand-badge"><span id="headerDot"></span> Ollama Local Engine</div>
+        <h1>Vision Stream</h1>
+        <p class="subtitle">Advanced real-time local multimodal inference via browser webcam</p>
+    </header>
+
+    <div class="main-container">
+        <!-- Left Column: Video Feed & Config -->
+        <div class="panel">
+            <div class="video-wrapper" id="videoWrapper">
+                <div class="status-badge">
+                    <span id="statusDot" class="status-dot"></span>
+                    <span id="statusText">Camera Standby</span>
+                </div>
+                <div class="metrics-badge" id="metricsBadge" style="position: absolute; bottom: 10px; left: 10px; background: rgba(0,0,0,0.7); color: #00ffcc; padding: 4px 8px; font-size: 0.75rem; border-radius: 4px; z-index: 10;">
+                    Latency: -- ms | FPS: --
+                </div>
+                <div class="video-controls-overlay">
+                    <button class="icon-btn" onclick="toggleFullScreen()" title="Full Screen">⛶ Fullscreen</button>
+                </div>
+                <video id="videoFeed" class="filter-normal" autoplay playsinline muted></video>
+                <div id="roiBox"></div>
+                <canvas id="canvas" class="hidden"></canvas>
+            </div>
+
+            <div class="io-group">
+                <label for="baseURL">API Endpoint URL</label>
+                <input id="baseURL" type="text" value="http://localhost:11434">
+            </div>
+
+            <div class="row-group">
+                <div class="io-group">
+                    <label for="intervalSelect">Capture Frequency</label>
+                    <select id="intervalSelect">
+                        <option value="100">100ms (High Speed)</option>
+                        <option value="250">250ms</option>
+                        <option value="500" selected>500ms (Balanced)</option>
+                        <option value="1000">1s (Standard)</option>
+                        <option value="2000">2s (Low Bandwidth)</option>
+                    </select>
+                </div>
+                <div class="io-group">
+                    <label for="maxTokensInput">Max Tokens</label>
+                    <input id="maxTokensInput" type="number" value="100" min="10" max="500">
+                </div>
+            </div>
+
+            <div class="row-group">
+                <div class="io-group">
+                    <label for="filterSelect">Video Filter Mode</label>
+                    <select id="filterSelect" onchange="changeVideoFilter()">
+                        <option value="filter-normal">Normal (No Filter)</option>
+                        <option value="filter-grayscale">Grayscale</option>
+                        <option value="filter-sepia">Sepia Tone</option>
+                        <option value="filter-contrast">High Contrast</option>
+                        <option value="filter-invert">Inverted Colors</option>
+                    </select>
+                </div>
+                <div class="io-group">
+                    <label for="tempSlider">Temperature (<span id="tempVal">0.7</span>)</label>
+                    <input id="tempSlider" type="range" min="0" max="1" step="0.05" value="0.7" oninput="document.getElementById('tempVal').textContent=this.value">
+                </div>
+            </div>
+
+            <div class="row-group">
+                <label class="checkbox-group">
+                    <input type="checkbox" id="roiToggle" onchange="toggleRoiMode()"> Enable ROI Crop Box
+                </label>
+                <label class="checkbox-group">
+                    <input type="checkbox" id="ttsToggle">Read Responses Aloud (TTS)
+                </label>
+            </div>
+        </div>
+
+        <!-- Right Column: Prompts, History & Controls -->
+        <div class="panel">
+            <div class="io-group">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <label for="personaSelect" style="margin-bottom:0;">Persona Preset</label>
+                    <select id="personaSelect" onchange="applyPersona()" style="font-size: 0.8rem; padding: 2px;">
+                        <option value="default">Default Assistant</option>
+                        <option value="security">Security Guard / Intrusion Monitor</option>
+                        <option value="hardware">Hardware & Electronics Debugger</option>
+                        <option value="accessibility">Descriptive Aid for Visually Impaired</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="io-group">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <label for="instructionText">Prompt Instruction</label>
+                    <button id="micButton" class="chip" onclick="toggleVoiceInput()" style="font-size: 0.7rem; padding: 2px 6px;">Speak Prompt</button>
+                </div>
+                <textarea id="instructionText">What do you see?</textarea>
+                <div class="preset-chips">
+                    <button class="chip" onclick="setPrompt('What do you see?')">Describe Scene</button>
+                    <button class="chip" onclick="setPrompt('List all visible objects with short phrases.')">List Objects</button>
+                    <button class="chip" onclick="setPrompt('Is there a person in front of the camera? Answer briefly.')">Check Person</button>
+                    <button class="chip" onclick="setPrompt('Read any visible text or labels in the frame.')">Read Text</button>
+                </div>
+            </div>
+
+            <div class="io-group" style="flex: 1;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <label>Live Chat History (Multi-Turn Context Enabled)</label>
+                    <div style="display: flex; gap: 4px;">
+                        <button class="chip" onclick="exportHistory('txt')" style="font-size: 0.65rem; padding: 2px 6px;">Export TXT</button>
+                        <button class="chip" onclick="exportHistory('json')" style="font-size: 0.65rem; padding: 2px 6px;">Export JSON</button>
+                        <button class="chip" onclick="clearHistory()" style="font-size: 0.65rem; padding: 2px 6px;">Clear Log</button>
+                    </div>
+                </div>
+                <div id="historyContainer" class="history-container">
+                    <div class="history-item">
+                        <div class="history-meta">System</div>
+                        <div class="history-response">Waiting to start stream...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-row">
+                <button id="snapshotButton" class="btn btn-secondary" onclick="takeSnapshot()">📸 Snapshot</button>
+                <button id="startButton" class="btn btn-primary">Start Vision Stream</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Snapshot Preview & Annotation Modal Template -->
+    <div id="snapshotModal" class="modal-backdrop hidden">
+        <div class="modal-card" style="max-width: 700px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="margin: 0; font-size: 1.1rem;">Snapshot Preview & Markup</h3>
+                <div style="display: flex; gap: 5px;">
+                    <button class="chip" onclick="setAnnotationTool('pen')">Pen</button>
+                    <button class="chip" onclick="setAnnotationTool('rect')">Box</button>
+                    <button class="chip" onclick="clearAnnotationCanvas()">Reset Canvas</button>
+                </div>
+            </div>
+            <div style="position: relative; display: inline-block; width: 100%; text-align: center; margin-top: 10px;">
+                <canvas id="annotationCanvas" style="max-width: 100%; border-radius: 4px; cursor: crosshair;"></canvas>
+            </div>
+            <div class="modal-actions" style="margin-top: 10px;">
+                <button class="btn btn-secondary" onclick="closeModal()">Discard</button>
+                <button class="btn btn-primary" onclick="downloadSnapshotFromModal()">Download Annotated JPG</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
