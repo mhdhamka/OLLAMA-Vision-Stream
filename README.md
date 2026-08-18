@@ -6,7 +6,7 @@
 
 Analyze live camera feeds, ask questions about what the camera sees, extract text, identify objects, inspect environments, and interact with your local AI—all without sending your camera data to a cloud AI service.
 
-[Report Bug](https://github.com) · [Request Feature](https://github.com)
+[Report Bug](https://github.com/mhdhamka/OLLAMA-Vision-Stream/issues) · [Request Feature](https://github.com/mhdhamka/OLLAMA-Vision-Stream/issues)
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Frontend](https://img.shields.io/badge/Frontend-HTML5%20%2F%20CSS%2F%20JS-F7DF1E?logo=javascript\&logoColor=black)
